@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script.js" defer></script>
+    <link href="style.css" rel="stylesheet" />
+</head>
+
+
+<body>
+    <div class="left-block">
+        <h1 class="adSite">Admin Site </h1>
+        <div class="Ht">
+
+            Heading Text:<input type="text" placeholder="Heading" oninput="changeheadText()" id="input">
+        </div>
+
+        <div class="Headcol">
+            <label>Heading color:</label>
+            <input type="color" id="favColor" oninput="display()">
+        </div>
+        <div class="Headalig">
+            <label>Select Heading Alignment</label>
+            <select onchange="changeAlignment()" id="aligt">
+                <option value="Left">Left</option>
+                <option value="Right">Right</option>
+                <option value="Center">Center</option>
+            </select>
+        </div>
+        <div class="paraText">
+            Paragraph Text:<input placeholder="Paragraph" id="variation" oninput="changeparaText()">
+        </div>
+        <div class="paraCol">
+            Select Paragraph Color: <input type="color" id="pc" oninput="pgraDisplay()">
+        </div>
+        <div class="paraFont">
+            Select Paragraph Font Size :
+            <select id="fSize" oninput="changeStyle()">
+                <option value="15px">15px</option>
+                <option value="20px">20px</option>
+                <option value="30px">30px</option>
+            </select>
+        </div>
+        <div class="webCol">
+            <label>Select website color : </label>
+            <input placeholder="website color" type="color" id="webColor" oninput="siteColor()">
+        </div>
+        <form name="pform" autocomplete="off">
+            Product Title: <input type="text" id="title" name="pTitle"><br><br>
+            <div id="textError"></div>
+            Product Price: <input type="text" id="price" name="pPrice"><br><br>
+            <div id="error"></div>
+            Product Image: <input type="file" id="image"><br><br>
+            Product Description: <input type="text" id="description" name="pDescription"><br><br>
+            <div id="desError"></div>
+            <button id="btnProduct"> Add Product </button>
+            <button id="btnClear">Clear Form</button>
+        </form>
+    </div>
+    </div>
+    <div>
+
+        <div class="right-block">
+            <h2 class="plcSite"> Public Site </h2>
+
+            <h1 id="hTag"></h1>
+            <p id="pTag"></p>
+
+            <body id="bTag"></body>
+
+            <div id="products"></div>
+        </div>
+
+</body>

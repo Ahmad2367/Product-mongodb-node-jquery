@@ -1,0 +1,39 @@
+*{
+    box-sizing: border-box;
+}
+.left-block{
+    float:left;
+    width:50%;
+    height:500px;
+    margin-bottom: 20%;
+
+}
+.right-block {
+    float:left;
+    width:50%;
+    height:700px;
+
+
+}
+.Ht
+{
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+.webCol,.Headcol,.Headalig,.paraText,.paraCol,.paraFont
+{
+    margin-bottom: 15px;
+}
+
+.adSite
+{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+.plcSite
+{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
