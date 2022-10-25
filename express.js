@@ -61,7 +61,7 @@ app.post('/product', async function (req, res) {
     price: req.body.price,
     inventory: req.body.inventory,
     img: req.body.image,
-    productId : productId
+    productId: productId
   })
 
   await respObj.save(function (err, result) {

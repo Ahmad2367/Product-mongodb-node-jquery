@@ -7,6 +7,7 @@ $(document).ready(function () {
             image: $(".proimg").val(),
             inventory: $(".proinvtry").val()
         }
+
         $.ajax({
             type: 'POST',
             url: '/product',
@@ -24,17 +25,44 @@ $(document).ready(function () {
             }
 
         })
-
+    })
+    $('#fresh-btn').on('click', function () {
         $.ajax({
             type: 'GET',
             url: '/products',
-            success: function (data) {
-                console.log(data)
+            success: function (product) {
+                for (let i = 0; i < product.length; i++) {
+                    let array = product[i]
+                    const imgTag = document.createElement('img')
+                    imgTag.setAttribute('src', array.img)
+                    const htmlStructure = function () {
+                        const divElement = document.createElement('div')
+                        divElement.innerHTML = `
+                        <h1>${array.title}</h1>
+                        <p>Price: ${array.price}</p>
+                        <p>Description: ${array.description}</p>`
+                        return divElement
+
+                    }
+                    const htmlAdd = htmlStructure(product)
+                    document.getElementById('proArray').append(htmlAdd)
+                    document.getElementById('proArray').appendChild(imgTag)
+
+                }
+
             }
         })
-
     })
+
+
 })
+
+
+
+
+
+
+
 
 
 
