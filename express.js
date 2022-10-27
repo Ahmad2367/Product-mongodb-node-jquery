@@ -33,14 +33,20 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, "./public"))
 })
 
-// ToDo Need to implement 
+
 app.get('/products', async function (req, res) {
   try {
-    const posts = await product.find()
-    res.json(posts)
+    const products = await product.find()
+    res.json({
+      success: true,
+      data: products,
+      error: ""
+    })
   } catch (err) {
     res.json({
-      message: err
+      success: false,
+      data: null,
+      error: 'Something went wrong'
     })
   }
 })
@@ -86,7 +92,28 @@ app.post('/product', async function (req, res) {
 
 })
 
+app.delete('/product/:productId', async function (req, res) {
+  try {
+    
+    const removeProduct = await product.remove({
+      productId: req.params.productId
+    })
+    res.json({
+      success: true,
+      data: removeProduct,
+      error: ''
+    })
+  } catch (err) {
+    res.json({
+      success: false,
+      data: null,
+      error: 'Something went wrong'
+    })
+  }
+})
+
 app.listen(5000)
+
 
 
 
