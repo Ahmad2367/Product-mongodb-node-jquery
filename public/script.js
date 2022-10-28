@@ -1,9 +1,32 @@
 $(document).ready(function () {
     $('#btnUpdate').on('click', function () {
-        // Todo: 
-        //     1) Get product values(id, title, description, price, inventory and img) from form
-        //     2) Send ajax PUT request
-        //     3) If success show message "updated successfully" or show error message
+        const productsObj = {
+            productId: $("#proId").val(),
+            title: $(".tlVlaue").val(),
+            description: $(".prodes").val(),
+            price: $(".propric").val(),
+            image: $(".proimg").val(),
+            inventory: $(".proinvtry").val()
+        }
+        let productId = $(this).parent().attr('data-product-id');
+
+        $.ajax({
+            type: 'PUT',
+            url: '/product/' + productId,
+            data: productsObj,
+            success: function (data) {
+                if (data.success === true) {
+                    document.getElementById('msg2').innerHTML = `<p style ="color:green">Updated Successfully!</p>`
+                }
+                if (data.success === false) {
+                    document.getElementById('msg').innerHTML = `<p>${data.error}</p>`
+                }
+            },
+            error: (err) => {
+                console.log(err)
+            }
+
+        })
     });
 
     $('#btnAdd').on('click', function () {
