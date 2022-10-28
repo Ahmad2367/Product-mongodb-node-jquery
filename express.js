@@ -94,7 +94,6 @@ app.post('/product', async function (req, res) {
 
 app.delete('/product/:productId', async function (req, res) {
   try {
-    
     const removeProduct = await product.remove({
       productId: req.params.productId
     })
@@ -112,23 +111,32 @@ app.delete('/product/:productId', async function (req, res) {
   }
 })
 
+app.put('/product/:productId', async (req, res) => {
+
+  try {
+    const updateProduct =
+      await product.updateOne({
+        productID: req.params.productId
+      }, {
+        $set: {
+          title: req.body.title,
+          description: req.body.description,
+          price: req.body.price,
+          img: req.body.image
+        }
+      })
+    res.json({
+      success:true,
+      data: updateProduct,
+      err:""
+    })
+  } catch (err) {
+    res.json({
+      success: false,
+      data: null,
+      error: 'Something went wrong'
+    })
+  }
+})
+
 app.listen(5000)
-
-
-
-
-
-
-
-
-
-//   if fail
-//     - return {isValid:false, error: "title should not be empty"}  
-//   if success
-//     - return {isValid: true};
-// }
-// const validateObj = validateProduct(req.body.title,...);
-// if(!validateObj.isValid){
-//   return res.json({success: validateObj.isValid, error: validateObj.error})
-//   // return;
-// }

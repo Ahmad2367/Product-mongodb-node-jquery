@@ -1,4 +1,10 @@
 $(document).ready(function () {
+    $('#btnUpdate').on('click', function () {
+        // Todo: 
+        //     1) Get product values(id, title, description, price, inventory and img) from form
+        //     2) Send ajax PUT request
+        //     3) If success show message "updated successfully" or show error message
+    });
 
     $('#btnAdd').on('click', function () {
         const productsObj = {
@@ -33,6 +39,8 @@ $(document).ready(function () {
             type: 'GET',
             url: '/products',
             success: function (response) {
+                var proInformation = response.data
+
                 if (response.success == false) {
                     // todo: show an error message
                     return;
@@ -52,7 +60,7 @@ $(document).ready(function () {
                             <p class="card-text"><b>PKR </b>${product.price}</p>
                             <span class='err-msg'></span>
                             <button type="button"  class="btn btn-danger del-btn">Delete</button>
-                            <button type="button" class="btn btn-info">Edit</button>
+                            <button type="button" class="btn btn-info edt-btn">Edit</button>
                         </div>
                     </div>`;
 
@@ -87,6 +95,18 @@ $(document).ready(function () {
                     })
                 })
                 // Attach edit click-handler
+                $('.edt-btn').on('click', function () {
+                    let proID = $(this).parent().attr('data-product-id');
+                    let getProId = proInformation.find((item) => item.productId === proID);
+                    $('#proId').val(getProId.productId);
+                    $('#proTitle').val(getProId.title);
+                    $('#proDescription').val(getProId.description);
+                    $('#proPrice').val(getProId.price);
+                    $('#proInventory').val(getProId.inventory);
+                    $('#proImage').val(getProId.img);
+
+                    $(document).scrollTop();
+                })
 
             }
         })
@@ -94,70 +114,3 @@ $(document).ready(function () {
 
 
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// document.getElementById('probtn').addEventListener('click', addProduct_Tiles)
-
-// function productValue(){
-// let idValue = document.getElementById('idValue').value
-// let tilValue = document.getElementById('tilValue').value
-// let  desValue = document.getElementById('desValue').value
-// let priceValue = document.getElementById('priceValue').value
-// let imgValue = document.getElementById('imgValue').value
-
-// const productObj = {
-//     id:idValue,
-//     title:tilValue,
-//     description:desValue,
-//     price:priceValue,
-//     img:imgValue
-// }
-// return productObj
-// }
-
-// const objStructure = function HtmlStruct(productObj){
-//     const divElement = document.createElement('div')
-//     divElement.innerHTML = 
-//     `
-//     <p>${productObj.id}</p>
-//     <h1>${productObj.title}</h1>
-//     <p>${productObj.description}</p>
-//     <p>${productObj.price}</p>
-//     `
-//     return divElement
-// }
-
-
-// function addProduct_Tiles(){
-//     const Products = productValue()
-//     const HtmlStruct = objStructure(Products)
-//  document.getElementById('Products').append(HtmlStruct)
-// }
