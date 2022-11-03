@@ -21,6 +21,11 @@
         <form class="form" method="post">
 
             <input id="proId" hidden />
+            <div class="Search">
+                <label for="productSearch" class="form-label">Search Bar</label>
+                <input type="text" class="form-control tlVlaue" placeholder="Search Product Here!!" id="search">
+            </div>
+            <button type="button" id="btnGet" class="btn btn-primary"> Search Product</button>
             <div class="title">
                 <label for="productTitle" class="form-label">Product Tile</label>
                 <input type="text" class="form-control tlVlaue" placeholder="Product Title" id="proTitle">
@@ -43,8 +48,9 @@
             </div>
             <p id="msg"></p>
             <button type="button" id="btnAdd" class="btn btn-primary">Add</button>
-            <button type="button" id="fresh-btn" class="btn btn-outline-primary">Refresh Button</button>
+            <button type="button" id="fresh-btn" class="btn btn-outline-primary">Refresh</button>
             <button type="button" id="btnUpdate" class="btn btn-primary">Update</button>
+
             <p id="msg2"></p>
             <!-- <div class="spinner-border text-primary" role="status">
                 <span id="spinner" class="sr-only" ></span>

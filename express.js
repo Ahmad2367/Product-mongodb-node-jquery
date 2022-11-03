@@ -126,9 +126,9 @@ app.put('/product/:productId', async (req, res) => {
         }
       })
     res.json({
-      success:true,
+      success: true,
       data: updateProduct,
-      err:""
+      err: ""
     })
   } catch (err) {
     res.json({
@@ -139,4 +139,42 @@ app.put('/product/:productId', async (req, res) => {
   }
 })
 
+app.get('/products/search', async function (req, res) {
+  try {
+    const search_Key = req.query.searchTerm;
+    console.log(search_Key)
+    const proSearch = await product.
+    find({
+      title: {
+        $regex: `${search_Key}`,
+        $options: "i"
+      }
+    })
+
+    res.json({
+      success: true,
+      data: proSearch,
+      err: ""
+    })
+  } catch (err) {
+    res.json({
+      success: false,
+      msg: err
+    })
+
+  }
+
+})
+
+
 app.listen(5000)
+
+
+
+
+
+
+//   "query": {
+//     "$regex": search_Key,
+//     "$options": 'i'
+//   }
