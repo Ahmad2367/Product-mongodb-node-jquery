@@ -1,11 +1,15 @@
 $(document).ready(function () {
     $('#btnGet').on('click', function () {
         let searchText = $('#search').val()
+        let maxPrice = $('#highPric').val()
+        let minPrice = $('#lowPric').val()
         $.ajax({
             url: '/products/search',
             type: 'GET',
             data: {
-                searchTerm: searchText
+                searchTerm: searchText,
+                maxRange: maxPrice,
+                minRange: minPrice
             },
             success: function (response) {
                 var proInformation = response.data
@@ -94,7 +98,7 @@ $('#btnUpdate').on('click', function () {
         image: $(".proimg").val(),
         inventory: $(".proinvtry").val()
     }
-    let productId = $(this).parent().attr('data-product-id');
+    let productId = $("#proId").val();
 
     $.ajax({
         type: 'PUT',

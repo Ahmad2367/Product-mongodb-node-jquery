@@ -12,6 +12,12 @@ require('dotenv/config')
 //custom files
 const product = require('./product_Schema')
 const productValidator = require('./validator/product-validator');
+const {
+  title
+} = require('process');
+const {
+  find
+} = require('./product_Schema');
 
 const app = express();
 
@@ -116,7 +122,7 @@ app.put('/product/:productId', async (req, res) => {
   try {
     const updateProduct =
       await product.updateOne({
-        productID: req.params.productId
+        productId: req.params.productId
       }, {
         $set: {
           title: req.body.title,
@@ -142,18 +148,57 @@ app.put('/product/:productId', async (req, res) => {
 app.get('/products/search', async function (req, res) {
   try {
     const search_Key = req.query.searchTerm;
-    console.log(search_Key)
-    const proSearch = await product.
-    find({
-      title: {
-        $regex: `${search_Key}`,
-        $options: "i"
+    const maxPrice = parseInt(req.query.maxRange)
+    const minPrice = parseInt(req.query.minRange)
+
+    // By default we have empty query 
+    let searchQuery = [];
+
+    // Generate title query if required
+    if (search_Key) {
+      searchQuery.push({
+        title: {
+          $regex: `${search_Key}`,
+          $options: "i",
+        }
+      });
+    }
+
+    // Generate price query if required
+    let priceRangObj = {};
+    if (!isNaN(maxPrice)) { // if there is a valid numeric value in max price
+      priceRangObj.$lte = maxPrice;
+    }
+    if (!isNaN(minPrice)) {
+      priceRangObj.$gte = minPrice;
+    }
+
+    if (Object.keys(priceRangObj).length > 0) {
+      searchQuery.push({
+        price: priceRangObj
+      })
+    }
+
+    // Execute query on DB
+    const proSearch = await product.find({
+      $and: searchQuery
+    })
+
+    const newProduct = proSearch.map((item) => {
+      return {
+        productId: item.productId,
+        title: item.title,
+        description: item.description,
+        price: item.price,
+        img: item.img,
+        inventory: item.inventory
       }
     })
 
-    res.json({
+    res.
+    json({
       success: true,
-      data: proSearch,
+      data: newProduct,
       err: ""
     })
   } catch (err) {
@@ -166,15 +211,4 @@ app.get('/products/search', async function (req, res) {
 
 })
 
-
 app.listen(5000)
-
-
-
-
-
-
-//   "query": {
-//     "$regex": search_Key,
-//     "$options": 'i'
-//   }
