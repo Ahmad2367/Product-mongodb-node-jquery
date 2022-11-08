@@ -1,6 +1,7 @@
 *{
     margin: 0;
     padding: 0;
+
 }
 
 #msg{
@@ -14,7 +15,7 @@ img{
     padding-top: 20px;
     margin-top: 20px;
 }
-#btnGet{
+#btnSearch{
     margin-bottom: 20px;
     margin-top: 10px;
     

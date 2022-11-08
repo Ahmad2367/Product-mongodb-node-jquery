@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#btnGet').on('click', function () {
+    $('#btnSearch').on('click', function () {
         let searchText = $('#search').val()
         let maxPrice = $('#highPric').val()
         let minPrice = $('#lowPric').val()
@@ -28,10 +28,10 @@ $(document).ready(function () {
                     <div class="card" style="width: 18rem;">
                     
                         <div class="card-body" data-product-id="${product.productId}">
-                        <img src=${product.img} class="card-img-top" alt="...">
-                            <h5 class="card-title">${product.title}</h5>
-                            <p class="card-text">Description: ${product.description}</p>
-                            <p class="card-text"><b>PKR </b>${product.price}</p>
+                        <img src=${product.img} class="card-img-top proImage" alt="...">
+                            <h5 class="card-title protitle">${product.title}</h5>
+                            <p class="card-text prodescription">Description: ${product.description}</p>
+                            <p class="card-text"><b>PKR</b><span class="proprice">${product.price}</span></p>
                             <span class='err-msg'></span>
                             <button type="button"  class="btn btn-danger del-btn">Delete</button>
                             <button type="button" class="btn btn-info edt-btn">Edit</button>
@@ -104,15 +104,22 @@ $('#btnUpdate').on('click', function () {
         type: 'PUT',
         url: '/product/' + productId,
         data: productsObj,
-        success: function (data) {
-            if (data.success === true) {
+        success: function (product) {
+            let proId = productId
+            if (product.success === true) {
+                $(`div[data-product-id = ${proId}] .protitle`).text(productsObj.title).get()
+                $(`div[data-product-id =${proId}] .prodescription`).text(productsObj.description).get()
+                $(`div[data-product-id =${proId}] .proprice`).text(productsObj.price).get()
+                $(`div[data-product-id =${proId}] .proImage`).attr('src', `${productsObj.image}`)
+
                 document.getElementById('msg2').innerHTML = `<p style ="color:green">Updated Successfully!</p>`
             }
-            if (data.success === false) {
+            if (product.success === false) {
                 document.getElementById('msg').innerHTML = `<p>${data.error}</p>`
             }
         },
         error: (err) => {
+
             console.log(err)
         }
 
@@ -157,7 +164,7 @@ $('#fresh-btn').on('click', function () {
             var proInformation = response.data
 
             if (response.success == false) {
-                // todo: show an error message
+
                 return {
                     err: 'Something went wrong'
                 }
@@ -171,10 +178,10 @@ $('#fresh-btn').on('click', function () {
                     <div class="card" style="width: 18rem;">
                     
                         <div class="card-body" data-product-id="${product.productId}">
-                        <img src=${product.img} class="card-img-top" alt="...">
-                            <h5 class="card-title">${product.title}</h5>
-                            <p class="card-text">Description: ${product.description}</p>
-                            <p class="card-text"><b>PKR </b>${product.price}</p>
+                        <img src=${product.img} class="card-img-top proImage" alt="...">
+                            <h5 class="card-title protitle">${product.title}</h5>
+                            <p class="card-text prodescription">Description: ${product.description}</p>
+                            <p class="card-text"><b>PKR</b><span class="proprice">${product.price}</span></p>
                             <span class='err-msg'></span>
                             <button type="button"  class="btn btn-danger del-btn">Delete</button>
                             <button type="button" class="btn btn-info edt-btn">Edit</button>
