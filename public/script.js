@@ -1,3 +1,5 @@
+//////////////////////////<Products-Tiles and their functionality Products-Tiles>/////
+/////////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function () {
     $('#btnSearch').on('click', function () {
         let searchText = $('#search').val()
@@ -142,6 +144,7 @@ $('#btnAdd').on('click', function () {
         url: '/product',
         data: productsObj,
         success: function (data) {
+
             if (data.success === true) {
                 document.getElementById('msg').innerHTML = `<p style ="color:green">Added Successfully!</p>`
             }
@@ -232,6 +235,36 @@ $('#fresh-btn').on('click', function () {
                 $(document).scrollTop();
             })
 
+        }
+    })
+})
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////Sign up form////////////////////////////////////////////////
+
+$('#btnsign').on('click', function (event) {
+
+    event.preventDefault();
+
+    let formData = {
+        username: $('#userName').val(),
+        password: $('#Password').val(),
+        email: $('#Email').val()
+    }
+    $.ajax({
+        url: '/signup',
+        method: 'POST',
+        data: formData,
+        success: function (data) {
+
+            if (data.success === true) {
+                document.getElementById('errMsg').innerHTML = `<p style ="color:green">Added Successfully!</p>`
+            }
+            if (data.success === false) {
+                document.getElementById('errMsg').innerHTML = `<p>${data.error}</p>`
+            }
+        },
+        error: (err) => {
+            console.log(err)
         }
     })
 })

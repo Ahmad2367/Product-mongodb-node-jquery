@@ -20,3 +20,10 @@ img{
     margin-top: 10px;
     
 }
+#btnsign{
+    margin-left: 50%;
+
+}
+#errMsg{
+    color: red;
+}

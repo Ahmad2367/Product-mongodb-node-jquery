@@ -12,13 +12,10 @@ require('dotenv/config')
 //custom files
 const product = require('./product_Schema')
 const productValidator = require('./validator/product-validator');
-const {
-  title
-} = require('process');
-const {
-  find
-} = require('./product_Schema');
+const user = require('./sign up_schema')
+const userValidation = require('./signup_validator/signup_fields_validator')
 
+// intializing the express
 const app = express();
 
 
@@ -34,12 +31,12 @@ mongoose.connect(process.env.DB_connection, () => {
   console.log('connected to db')
 })
 
-
+// Running the static file 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, "./public"))
 })
 
-
+// Get all the products
 app.get('/products', async function (req, res) {
   try {
     const products = await product.find()
@@ -57,6 +54,7 @@ app.get('/products', async function (req, res) {
   }
 })
 
+// Save all product data in database
 app.post('/product', async function (req, res) {
 
   const validateObj = productValidator(req.body.title, req.body.description, req.body.price, req.body.inventory)
@@ -97,7 +95,7 @@ app.post('/product', async function (req, res) {
   });
 
 })
-
+// Delete a product
 app.delete('/product/:productId', async function (req, res) {
   try {
     const removeProduct = await product.remove({
@@ -117,6 +115,7 @@ app.delete('/product/:productId', async function (req, res) {
   }
 })
 
+// Update the product tile in the database
 app.put('/product/:productId', async (req, res) => {
 
   try {
@@ -145,6 +144,7 @@ app.put('/product/:productId', async (req, res) => {
   }
 })
 
+// get Product by search and price Range
 app.get('/products/search', async function (req, res) {
   try {
     const search_Key = req.query.searchTerm;
@@ -210,5 +210,69 @@ app.get('/products/search', async function (req, res) {
   }
 
 })
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////signup APi////////////////////////////////////////////////////////
+
+app.post('/signup', async function (req, res) {
+
+  let validateUser = userValidation(req.body.username, req.body.password, req.body.email)
+
+  if (!validateUser.isValid) {
+    return res.json({
+      success: false,
+      error: validateUser.errMsg
+    })
+  }
+
+  const {
+    username,
+    email
+  } = req.body
+
+  const userExist = await user.find({
+    username: username
+  })
+  if (userExist.length > 0) {
+    return res.json({
+      success: false,
+      error: 'Username already exists. Try a different one.'
+    })
+  }
+  const emailExist = await user.find({
+    email: email
+  })
+  if (emailExist.length > 0) {
+    return res.json({
+      success: false,
+      error: 'Email already exists. Try a different one'
+    })
+  }
+
+
+  const UserID = uuidv4()
+  const User = new user({
+    username: req.body.username,
+    password: req.body.password,
+    email: req.body.email,
+    userId: UserID
+  })
+  // check error without passing callBack function---
+  await User.save(function (err, result) {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log(result)
+    }
+
+    return res.status(201).json({
+      success: true,
+      data: User
+    })
+
+  })
+
+})
+
 
 app.listen(5000)
