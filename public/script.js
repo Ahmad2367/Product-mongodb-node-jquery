@@ -268,3 +268,31 @@ $('#btnsign').on('click', function (event) {
         }
     })
 })
+
+///////////////////////////////////////////Login-Form//////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
+$('#btnLogin').on('click', function () {
+    let loginData = {
+        loginEmail: $('#mail').val(),
+        loginPassword: $('#Pass').val()
+    }
+
+    $.ajax({
+        url: '/login',
+        method: 'POST',
+        data: loginData,
+        success: function (data) {
+            if (data.success === true) {
+                window.location.href = "/"
+            }
+            if (data.success === false) {
+                document.getElementById('msg').innerHTML = `<p>${data.error}</p>`
+            }
+        },
+        error: (err) => {
+            console.log(err)
+        }
+    })
+})

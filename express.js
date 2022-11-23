@@ -3,6 +3,7 @@ const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const cookieParser = require('cookie-parser')
 const {
   v4: uuidv4
 } = require('uuid');
@@ -21,10 +22,17 @@ const app = express();
 
 // middleware
 app.use(express.json())
+app.use(cookieParser())
 app.use(bodyParser.urlencoded({
   extended: false
 }))
+
+// custom middleware 
+// if(req.url !== '/login-register.html'){}
+
+// --------res.redirect('/login-register.html');--
 app.use(express.static("public"))
+
 
 
 mongoose.connect(process.env.DB_connection, () => {
@@ -274,5 +282,32 @@ app.post('/signup', async function (req, res) {
 
 })
 
+
+//////////////////////////////////////////////Login Api/////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.post('/login', async function (req, res) {
+
+  const email = req.body.loginEmail
+  const password = req.body.loginPassword
+  const findFields = await user.find({
+    email: email,
+    password: password
+  })
+
+  if (findFields.length > 0) {
+    res.cookie('userID', findFields[0].userId)
+    return res.json({
+      success: true,
+      data: findFields
+    })
+  }
+  if (findFields == undefined || findFields.length === 0) {
+    return res.json({
+      success: false,
+      error: 'Incorrect email or password. Please provide the right information'
+    })
+  }
+})
 
 app.listen(5000)
