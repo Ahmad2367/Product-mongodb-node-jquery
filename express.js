@@ -26,11 +26,16 @@ app.use(cookieParser())
 app.use(bodyParser.urlencoded({
   extended: false
 }))
+app.use((req, res, next) => {
 
-// custom middleware 
-// if(req.url !== '/login-register.html'){}
-
-// --------res.redirect('/login-register.html');--
+  if (req.url === '/login-register.html' || req.url === '/script.js' || req.url === '/style.css' || req.url === '/login') {
+    next();
+  } else if (Object.keys(req.cookies).find(r => r == 'userID')) {
+    next();
+  } else {
+    res.redirect('/login-register.html')
+  }
+})
 app.use(express.static("public"))
 
 
@@ -308,6 +313,26 @@ app.post('/login', async function (req, res) {
       error: 'Incorrect email or password. Please provide the right information'
     })
   }
+})
+
+////////////////////////////////////////////////////logout api///////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.delete('/logout', async function (req, res) {
+  await res.clearCookie('userID')
+  try {
+    res.json({
+      success: true,
+      err: ""
+
+    })
+  } catch {
+    res.json({
+      success: false,
+      error: 'Something went wrong'
+    })
+  }
+
 })
 
 app.listen(5000)

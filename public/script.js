@@ -296,3 +296,23 @@ $('#btnLogin').on('click', function () {
         }
     })
 })
+
+////////////////////////////////////////////////Log out Button/////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+
+$('#logBtn').on('click', function () {
+
+    $.ajax({
+        url: '/logout',
+        method: 'DELETE',
+        success: function (data) {
+            if (data.success === true) {
+                window.location.href = '/login-register.html'
+            } else {
+                if (data.success === false) {
+                    document.getElementById('logMsg').innerHTML = `${data.error}`
+                }
+            }
+        }
+    })
+})
