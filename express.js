@@ -4,9 +4,8 @@ const path = require('path')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
-const {
-  v4: uuidv4
-} = require('uuid');
+const {sign,verify} = require('jsonwebtoken')
+const {v4: uuidv4} = require('uuid');
 const fs = require('fs')
 require('dotenv/config')
 
@@ -26,17 +25,35 @@ app.use(cookieParser())
 app.use(bodyParser.urlencoded({
   extended: false
 }))
-app.use((req, res, next) => {
+app.use(express.static("public"))
 
-  if (req.url === '/login-register.html' || req.url === '/script.js' || req.url === '/style.css' || req.url === '/login') {
-    next();
-  } else if (Object.keys(req.cookies).find(r => r == 'userID')) {
-    next();
+app.use(async (req, res, next) => {
+
+  if (req.url === '/login') {
+    next()
+
+  } else if (!req.headers['authorization']) {
+
+    return res.status(401).json({
+      success: false,
+      error: 'Access Denied'
+    })
+
   } else {
-    res.redirect('/login-register.html')
+
+    const Token = req.headers['authorization'].split(' ')[1].trim()
+    let checkVerify = verify(Token, process.env.Access_Token_Secret)
+
+    if (checkVerify) {
+      next()
+    } else {
+      res.sendStatus('401').json({
+        error: 'Invalid Token'
+      })
+    }
   }
 })
-app.use(express.static("public"))
+
 
 
 
@@ -61,7 +78,7 @@ app.get('/products', async function (req, res) {
   } catch (err) {
     res.json({
       success: false,
-      data: null,
+      data: "",
       error: 'Something went wrong'
     })
   }
@@ -300,11 +317,17 @@ app.post('/login', async function (req, res) {
     password: password
   })
 
+  const accessToken = sign({
+    clientID: findFields[0].userId
+  }, process.env.Access_Token_Secret)
+
+
+
   if (findFields.length > 0) {
-    res.cookie('userID', findFields[0].userId)
+
     return res.json({
       success: true,
-      data: findFields
+      Value: accessToken
     })
   }
   if (findFields == undefined || findFields.length === 0) {

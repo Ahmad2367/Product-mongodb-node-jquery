@@ -1,4 +1,5 @@
 //////////////////////////<Products-Tiles and their functionality Products-Tiles>/////
+
 /////////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function () {
     $('#btnSearch').on('click', function () {
@@ -8,15 +9,22 @@ $(document).ready(function () {
         $.ajax({
             url: '/products/search',
             type: 'GET',
+            headers: getHeaders(),
             data: {
                 searchTerm: searchText,
                 maxRange: maxPrice,
                 minRange: minPrice
             },
+            error: function (httpObj, textStatus) {
+                if (httpObj.status === 401) {
+                    window.location.href = '/login-register.html'
+                }
+            },
             success: function (response) {
                 var proInformation = response.data
 
                 if (response.success == false) {
+
                     return {
                         err: 'Something went wrong'
                     }
@@ -57,6 +65,7 @@ $(document).ready(function () {
                     $.ajax({
                         type: 'DELETE',
                         url: '/product/' + productId,
+                        headers: getHeaders(),
                         success: function (data) {
                             if (data.success === true) {
                                 $(`[data-product-id=${productId}]`).fadeOut().remove()
@@ -65,9 +74,11 @@ $(document).ready(function () {
                                 $(`[data-product-id=${productId}]`).find('.err-msg').text(data.err)
                             }
                         },
-                        error: function (err) {
-                            console.log(err)
-                        }
+                        error: function (httpObj, textStatus) {
+                            if (httpObj.status === 401) {
+                                window.location.href = '/login-register.html'
+                            }
+                        },
                     })
                 })
 
@@ -106,6 +117,12 @@ $('#btnUpdate').on('click', function () {
         type: 'PUT',
         url: '/product/' + productId,
         data: productsObj,
+        headers: getHeaders(),
+        error: function (httpObj, textStatus) {
+            if (httpObj.status === 401) {
+                window.location.href = '/login-register.html'
+            }
+        },
         success: function (product) {
             let proId = productId
             if (product.success === true) {
@@ -120,11 +137,6 @@ $('#btnUpdate').on('click', function () {
                 document.getElementById('msg').innerHTML = `<p>${data.error}</p>`
             }
         },
-        error: (err) => {
-
-            console.log(err)
-        }
-
     })
 
 });
@@ -143,6 +155,12 @@ $('#btnAdd').on('click', function () {
         type: 'POST',
         url: '/product',
         data: productsObj,
+        headers: getHeaders(),
+        error: function (httpObj, textStatus) {
+            if (httpObj.status === 401) {
+                window.location.href = '/login-register.html'
+            }
+        },
         success: function (data) {
 
             if (data.success === true) {
@@ -152,26 +170,32 @@ $('#btnAdd').on('click', function () {
                 document.getElementById('msg').innerHTML = `<p>${data.error}</p>`
             }
         },
-        error: (err) => {
-            console.log(err)
-        }
-
     })
 })
+
+function getHeaders() {
+    let headersObj = {};
+    if (localStorage.getItem('JWT-Token')) {
+        headersObj = {
+            'Authorization': 'Bearer ' + localStorage.getItem('JWT-Token')
+        }
+    }
+    return headersObj;
+}
 
 $('#fresh-btn').on('click', function () {
     $.ajax({
         type: 'GET',
         url: '/products',
+        headers: getHeaders(),
+        error: function (httpObj, textStatus) {
+            if (httpObj.status === 401) {
+                window.location.href = '/login-register.html'
+            }
+        },
         success: function (response) {
             var proInformation = response.data
 
-            if (response.success == false) {
-
-                return {
-                    err: 'Something went wrong'
-                }
-            }
 
             const products = response.data;
             let productsHTML = '';
@@ -208,11 +232,18 @@ $('#fresh-btn').on('click', function () {
                 $.ajax({
                     type: 'DELETE',
                     url: '/product/' + productId,
+                    headers: getHeaders(),
+                    error: function (httpObj, textStatus) {
+                        if (httpObj.status === 401) {
+                            window.location.href = '/login-register.html'
+                        }
+                    },
                     success: function (data) {
                         if (data.success === true) {
                             $(`[data-product-id=${productId}]`).fadeOut().remove()
                         }
                         if (data.success === false) {
+                            window.location.href = '/login-register.html'
                             $(`[data-product-id=${productId}]`).find('.err-msg').text(data.err)
                         }
                     },
@@ -254,12 +285,19 @@ $('#btnsign').on('click', function (event) {
         url: '/signup',
         method: 'POST',
         data: formData,
+        headers: getHeaders(),
+        error: function (httpObj, textStatus) {
+            if (httpObj.status === 401) {
+                window.location.href = '/login-register.html'
+            }
+        },
         success: function (data) {
 
             if (data.success === true) {
                 document.getElementById('errMsg').innerHTML = `<p style ="color:green">Added Successfully!</p>`
             }
             if (data.success === false) {
+                window.location.href = '/login-register.html'
                 document.getElementById('errMsg').innerHTML = `<p>${data.error}</p>`
             }
         },
@@ -283,12 +321,20 @@ $('#btnLogin').on('click', function () {
         url: '/login',
         method: 'POST',
         data: loginData,
+        headers: getHeaders(),
+        error: function (httpObj, textStatus) {
+            if (httpObj.status === 401) {
+                window.location.href = '/login-register.html'
+            }
+        },
         success: function (data) {
             if (data.success === true) {
-                window.location.href = "/"
+                localStorage.setItem('JWT-Token', data.Value)
+                window.location.href = '/'
             }
             if (data.success === false) {
-                document.getElementById('msg').innerHTML = `<p>${data.error}</p>`
+                // window.location.href = '/login-register.html'
+                // document.getElementById('msg').innerHTML = `<p>${data.error}</p>`
             }
         },
         error: (err) => {
@@ -305,11 +351,19 @@ $('#logBtn').on('click', function () {
     $.ajax({
         url: '/logout',
         method: 'DELETE',
+        headers: getHeaders(),
+        error: function (httpObj, textStatus) {
+            if (httpObj.status === 401) {
+                window.location.href = '/login-register.html'
+            }
+        },
         success: function (data) {
             if (data.success === true) {
+                localStorage.removeItem('JWT-Token')
                 window.location.href = '/login-register.html'
             } else {
                 if (data.success === false) {
+
                     document.getElementById('logMsg').innerHTML = `${data.error}`
                 }
             }
