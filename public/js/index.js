@@ -1,6 +1,3 @@
-//////////////////////////<Products-Tiles and their functionality Products-Tiles>/////
-
-/////////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function () {
     $('#btnSearch').on('click', function () {
         let searchText = $('#search').val()
@@ -64,7 +61,7 @@ $(document).ready(function () {
 
                     $.ajax({
                         type: 'DELETE',
-                        url: '/product/' + productId,
+                        url: '/products/' + productId,
                         headers: getHeaders(),
                         success: function (data) {
                             if (data.success === true) {
@@ -115,7 +112,7 @@ $('#btnUpdate').on('click', function () {
 
     $.ajax({
         type: 'PUT',
-        url: '/product/' + productId,
+        url: '/products/' + productId,
         data: productsObj,
         headers: getHeaders(),
         error: function (httpObj, textStatus) {
@@ -153,7 +150,7 @@ $('#btnAdd').on('click', function () {
 
     $.ajax({
         type: 'POST',
-        url: '/product',
+        url: '/products',
         data: productsObj,
         headers: getHeaders(),
         error: function (httpObj, textStatus) {
@@ -269,82 +266,6 @@ $('#fresh-btn').on('click', function () {
         }
     })
 })
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////Sign up form////////////////////////////////////////////////
-
-$('#btnsign').on('click', function (event) {
-
-    event.preventDefault();
-
-    let formData = {
-        username: $('#userName').val(),
-        password: $('#Password').val(),
-        email: $('#Email').val()
-    }
-    $.ajax({
-        url: '/signup',
-        method: 'POST',
-        data: formData,
-        headers: getHeaders(),
-        error: function (httpObj, textStatus) {
-            if (httpObj.status === 401) {
-                window.location.href = '/login-register.html'
-            }
-        },
-        success: function (data) {
-
-            if (data.success === true) {
-                document.getElementById('errMsg').innerHTML = `<p style ="color:green">Added Successfully!</p>`
-            }
-            if (data.success === false) {
-                window.location.href = '/login-register.html'
-                document.getElementById('errMsg').innerHTML = `<p>${data.error}</p>`
-            }
-        },
-        error: (err) => {
-            console.log(err)
-        }
-    })
-})
-
-///////////////////////////////////////////Login-Form//////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-
-
-$('#btnLogin').on('click', function () {
-    let loginData = {
-        loginEmail: $('#mail').val(),
-        loginPassword: $('#Pass').val()
-    }
-
-    $.ajax({
-        url: '/login',
-        method: 'POST',
-        data: loginData,
-        headers: getHeaders(),
-        error: function (httpObj, textStatus) {
-            if (httpObj.status === 401) {
-                window.location.href = '/login-register.html'
-            }
-        },
-        success: function (data) {
-            if (data.success === true) {
-                localStorage.setItem('JWT-Token', data.Value)
-                window.location.href = '/'
-            }
-            if (data.success === false) {
-                // window.location.href = '/login-register.html'
-                // document.getElementById('msg').innerHTML = `<p>${data.error}</p>`
-            }
-        },
-        error: (err) => {
-            console.log(err)
-        }
-    })
-})
-
-////////////////////////////////////////////////Log out Button/////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////
 
 $('#logBtn').on('click', function () {
 
