@@ -11,12 +11,6 @@ $('#btnsign').on('click', function (event) {
         url: '/signup',
         method: 'POST',
         data: formData,
-        headers: getHeaders(),
-        error: function (httpObj, textStatus) {
-            if (httpObj.status === 401) {
-                window.location.href = '/login-register.html'
-            }
-        },
         success: function (data) {
 
             if (data.success === true) {

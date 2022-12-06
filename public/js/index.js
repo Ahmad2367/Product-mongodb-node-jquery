@@ -228,7 +228,7 @@ $('#fresh-btn').on('click', function () {
 
                 $.ajax({
                     type: 'DELETE',
-                    url: '/product/' + productId,
+                    url: '/products/' + productId,
                     headers: getHeaders(),
                     error: function (httpObj, textStatus) {
                         if (httpObj.status === 401) {
@@ -244,9 +244,6 @@ $('#fresh-btn').on('click', function () {
                             $(`[data-product-id=${productId}]`).find('.err-msg').text(data.err)
                         }
                     },
-                    error: function (err) {
-                        console.log(err)
-                    }
                 })
             })
             // Attach edit click-handler
