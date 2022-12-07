@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const productValidator = require('../validation/product-validator');
-const product = require('../Database/product-schema')
+const product = require('../database/product-schema')
 const {
     v4: uuidv4
 } = require('uuid');

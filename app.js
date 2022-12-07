@@ -4,7 +4,7 @@ const path = require('path')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
-const jwt = require('jsonwebtoken')
+
 const fs = require('fs')
 require('dotenv/config')
 
@@ -12,8 +12,9 @@ require('dotenv/config')
 //custom files
 const products = require('./controller/product-routes')
 const login = require('./controller/login-route')
+const middleware = require('./auth/auth-middleware')
 
-// intializing the express
+// initializing the express framework
 const app = express();
 
 
@@ -24,20 +25,14 @@ app.use(bodyParser.urlencoded({
   extended: false
 }))
 app.use(express.static("public"))
-require('./auth/auth-middleware')
-
+app.use(middleware)
 
 // Running the static file 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, "./public"))
 })
 
-
-
-
-
-
-mongoose.connect("mongodb://127.0.0.1:27017", {
+mongoose.connect(process.env.DB_CONNECTION, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }, (err) => {
@@ -48,14 +43,8 @@ mongoose.connect("mongodb://127.0.0.1:27017", {
   }
 })
 
-
-app.use('/products', products)
 app.use('/', login)
+app.use('/products', products)
 
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////signup APi////////////////////////////////////////////////////////
-
-
-
-app.listen(5000)
+// app.listen(process.env.PORT || 5000)
+module.exports = app;
