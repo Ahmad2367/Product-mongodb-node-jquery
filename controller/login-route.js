@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const userValidation = require('../validation/signup-fields-validator')
-const user = require('../DB/user-schema')
+const user = require('../Database/user-schema')
 const jwt = require('jsonwebtoken')
 const {
     v4: uuidv4

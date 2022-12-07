@@ -10,8 +10,9 @@ require('dotenv/config')
 
 
 //custom files
-const products = require('./controller/product_routes')
-const login = require('./controller/login_route')
+const products = require('./controller/product-routes')
+const login = require('./controller/login-route')
+
 // intializing the express
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(bodyParser.urlencoded({
   extended: false
 }))
 app.use(express.static("public"))
+require('./auth/auth-middleware')
 
 
 // Running the static file 
@@ -30,38 +32,20 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, "./public"))
 })
 
-app.use(async (req, res, next) => {
 
-  if (req.url === '/login') {
-    next()
 
-  } else if (!req.headers['authorization']) {
 
-    return res.status(401).json({
-      success: false,
-      error: 'Access Denied'
-    })
 
+
+mongoose.connect("mongodb://127.0.0.1:27017", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}, (err) => {
+  if (err) {
+    thr
   } else {
-
-    const Token = req.headers['authorization'].split(' ')[1].trim()
-    let checkVerify = jwt.verify(Token, process.env.Access_Token_Secret)
-
-    if (checkVerify) {
-      next()
-    } else {
-      res.sendStatus('401').json({
-        error: 'Invalid Token'
-      })
-    }
+    console.log('Connected to DB')
   }
-})
-
-
-
-
-mongoose.connect(process.env.DB_connection, () => {
-  console.log('connected to db')
 })
 
 
