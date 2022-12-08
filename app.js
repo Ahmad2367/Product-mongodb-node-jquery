@@ -25,19 +25,17 @@ app.use(bodyParser.urlencoded({
   extended: false
 }))
 app.use(express.static("public"))
-app.use(middleware)
-
 // Running the static file 
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, "./public"))
+  res.sendFile(path.join(__dirname, "./public/index.html"))
 })
-
+app.use(middleware);
 mongoose.connect(process.env.DB_CONNECTION, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }, (err) => {
   if (err) {
-    thr
+    console.log(err);
   } else {
     console.log('Connected to DB')
   }
