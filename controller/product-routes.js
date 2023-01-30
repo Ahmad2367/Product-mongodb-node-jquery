@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const productValidator = require('../validation/product-validator');
-const product = require('../database/product-schema')
+const product = require('../Database/product-schema')
 const {
     v4: uuidv4
 } = require('uuid');
@@ -41,7 +41,8 @@ router.post('/', async function (req, res) {
         price: req.body.price,
         inventory: req.body.inventory,
         img: req.body.image,
-        productId: productId
+        productId: productId,
+    
     })
 
     await respObj.save(function (err, result) {
@@ -180,5 +181,7 @@ router.get('/search', async function (req, res) {
     }
 
 })
+
+
 
 module.exports = router

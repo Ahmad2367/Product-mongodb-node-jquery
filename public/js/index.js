@@ -42,6 +42,7 @@ $(document).ready(function () {
                             <span class='err-msg'></span>
                             <button type="button"  class="btn btn-danger del-btn">Delete</button>
                             <button type="button" class="btn btn-info edt-btn">Edit</button>
+                            <button type="button" class="btn btn-info cart-btn">Add to cart</button>
                         </div>
                     </div>`;
 
@@ -145,7 +146,7 @@ $('#btnAdd').on('click', function () {
         description: $(".prodes").val(),
         price: $(".propric").val(),
         image: $(".proimg").val(),
-        inventory: $(".proinvtry").val()
+        inventory: $(".proinvtry").val(),
     }
 
     $.ajax({
@@ -206,9 +207,12 @@ $('#fresh-btn').on('click', function () {
                             <h5 class="card-title protitle">${product.title}</h5>
                             <p class="card-text prodescription">Description: ${product.description}</p>
                             <p class="card-text"><b>PKR</b><span class="proprice">${product.price}</span></p>
+                    Quantity: <input type="text" id="quantity" value='1' placeholder="Quantity">   
+                    <div id="result"></div> 
                             <span class='err-msg'></span>
                             <button type="button"  class="btn btn-danger del-btn">Delete</button>
                             <button type="button" class="btn btn-info edt-btn">Edit</button>
+                            <button type="button" class="btn btn-info cart-btn">Add to cart</button>
                         </div>
                     </div>`;
 
@@ -260,9 +264,44 @@ $('#fresh-btn').on('click', function () {
                 $(document).scrollTop();
             })
 
+            $('.cart-btn').on('click', function () {
+                 let proID = $(this).parent().attr('data-product-id');
+                let quantity =  $(`[data-product-id=${proID}]`).find('#quantity').val()
+                
+                $.ajax({
+                    type: 'POST',
+                    url:'/cart/add?id='+proID + '&quantity= ' + quantity,
+                    headers: getHeaders(),
+                    success: function(data){
+                        if(data.success==true)
+                        {
+                            console.log(data.value)
+                        }
+                    }
+                })
+            })
+
         }
+        
+    })
+
+})
+
+$('#btnViewCart').on('click', function() {
+    
+    $.ajax({
+        type: 'GET',
+        url: '/cart/get',
+        headers: getHeaders(),
+        success: function(data){
+            console.log(data)
+        }
+
     })
 })
+
+
+
 
 $('#logBtn').on('click', function () {
 
@@ -288,3 +327,4 @@ $('#logBtn').on('click', function () {
         }
     })
 })
+

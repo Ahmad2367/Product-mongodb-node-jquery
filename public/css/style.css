@@ -27,3 +27,11 @@ img{
 #errMsg{
     color: red;
 }
+
+#quantity{
+    margin-bottom: 30px;
+}
+
+#proArray .card{
+    display: inline-flex;
+}

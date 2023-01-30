@@ -4,6 +4,7 @@ const path = require('path')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
+const session = require('express-session')
 
 const fs = require('fs')
 require('dotenv/config')
@@ -11,6 +12,7 @@ require('dotenv/config')
 
 //custom files
 const products = require('./controller/product-routes')
+const cart = require('./controller/add-cart')
 const login = require('./controller/login-route')
 const middleware = require('./auth/auth-middleware')
 
@@ -23,6 +25,11 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({
   extended: false
+}))
+app.use(session({
+  secret: 'Secret-key',
+  resave: false,
+  saveUninitialized: false
 }))
 app.use(express.static("public"))
 // Running the static file 
@@ -43,6 +50,7 @@ mongoose.connect(process.env.DB_CONNECTION, {
 
 app.use('/', login)
 app.use('/products', products)
+app.use('/cart', cart)
 
 // app.listen(process.env.PORT || 5000)
 module.exports = app;
