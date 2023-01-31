@@ -9,6 +9,19 @@ const {
 
 router.get('/', async function (req, res) {
     try {
+        let proID = req.query.productId 
+        if(proID) {
+            
+            const proObj = await product.findOne({
+                productId: proID
+            })
+
+            return res.json({
+                success: true,
+                data: proObj
+            })
+            
+        }
         const products = await product.find()
         res.json({
             success: true,

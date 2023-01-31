@@ -35,3 +35,30 @@ img{
 #proArray .card{
     display: inline-flex;
 }
+
+#logBtn {
+    position: relative;
+    left: 950px;
+    bottom: 150px;
+}
+
+#search {
+    width:  350px;
+}
+
+#highPric {
+    width:  350px;
+    
+
+}
+
+#lowPric {
+    width: 350px;
+    
+}
+
+.btn-dark {
+    position: relative;
+    left: 700px;
+    bottom: 150px;
+}

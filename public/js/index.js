@@ -18,7 +18,6 @@ $(document).ready(function () {
                 }
             },
             success: function (response) {
-                var proInformation = response.data
 
                 if (response.success == false) {
 
@@ -79,95 +78,16 @@ $(document).ready(function () {
                         },
                     })
                 })
-
+                
                 $('.edt-btn').on('click', function () {
                     let proID = $(this).parent().attr('data-product-id');
-                    let getProId = proInformation.find((item) => item.productId === proID);
-                    $('#proId').val(getProId.productId);
-                    $('#proTitle').val(getProId.title);
-                    $('#proDescription').val(getProId.description);
-                    $('#proPrice').val(getProId.price);
-                    $('#proInventory').val(getProId.inventory);
-                    $('#proImage').val(getProId.img);
-
-                    $(document).scrollTop();
+                    let loc = window.location
+                    window.location.href = loc.protocol +"//" + loc.host + '/admin.html?productId='+ proID;
+                    return
                 })
 
             }
         })
-    })
-})
-
-
-$('#btnUpdate').on('click', function () {
-
-    const productsObj = {
-        productId: $("#proId").val(),
-        title: $(".tlVlaue").val(),
-        description: $(".prodes").val(),
-        price: $(".propric").val(),
-        image: $(".proimg").val(),
-        inventory: $(".proinvtry").val()
-    }
-    let productId = $("#proId").val();
-
-    $.ajax({
-        type: 'PUT',
-        url: '/products/' + productId,
-        data: productsObj,
-        headers: getHeaders(),
-        error: function (httpObj, textStatus) {
-            if (httpObj.status === 401) {
-                window.location.href = '/login-register.html'
-            }
-        },
-        success: function (product) {
-            let proId = productId
-            if (product.success === true) {
-                $(`div[data-product-id = ${proId}] .protitle`).text(productsObj.title).get()
-                $(`div[data-product-id =${proId}] .prodescription`).text(productsObj.description).get()
-                $(`div[data-product-id =${proId}] .proprice`).text(productsObj.price).get()
-                $(`div[data-product-id =${proId}] .proImage`).attr('src', `${productsObj.image}`)
-
-                document.getElementById('msg2').innerHTML = `<p style ="color:green">Updated Successfully!</p>`
-            }
-            if (product.success === false) {
-                document.getElementById('msg').innerHTML = `<p>${data.error}</p>`
-            }
-        },
-    })
-
-});
-
-
-$('#btnAdd').on('click', function () {
-    const productsObj = {
-        title: $(".tlVlaue").val(),
-        description: $(".prodes").val(),
-        price: $(".propric").val(),
-        image: $(".proimg").val(),
-        inventory: $(".proinvtry").val(),
-    }
-
-    $.ajax({
-        type: 'POST',
-        url: '/products',
-        data: productsObj,
-        headers: getHeaders(),
-        error: function (httpObj, textStatus) {
-            if (httpObj.status === 401) {
-                window.location.href = '/login-register.html'
-            }
-        },
-        success: function (data) {
-
-            if (data.success === true) {
-                document.getElementById('msg').innerHTML = `<p style ="color:green">Added Successfully!</p>`
-            }
-            if (data.success === false) {
-                document.getElementById('msg').innerHTML = `<p>${data.error}</p>`
-            }
-        },
     })
 })
 
@@ -192,9 +112,7 @@ $('#fresh-btn').on('click', function () {
             }
         },
         success: function (response) {
-            var proInformation = response.data
-
-
+    
             const products = response.data;
             let productsHTML = '';
             for (let i = 0; i < products.length; i++) {
@@ -253,15 +171,9 @@ $('#fresh-btn').on('click', function () {
             // Attach edit click-handler
             $('.edt-btn').on('click', function () {
                 let proID = $(this).parent().attr('data-product-id');
-                let getProId = proInformation.find((item) => item.productId === proID);
-                $('#proId').val(getProId.productId);
-                $('#proTitle').val(getProId.title);
-                $('#proDescription').val(getProId.description);
-                $('#proPrice').val(getProId.price);
-                $('#proInventory').val(getProId.inventory);
-                $('#proImage').val(getProId.img);
-
-                $(document).scrollTop();
+                let loc = window.location
+                    window.location.href = loc.protocol +"//" + loc.host + '/admin.html?productId='+ proID;
+                    return
             })
 
             $('.cart-btn').on('click', function () {

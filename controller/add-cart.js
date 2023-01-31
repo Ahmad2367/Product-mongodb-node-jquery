@@ -41,7 +41,6 @@ router.get('/get', async (req,res)=> {
             const proObj = await product.findOne({
                productId: productID
             }).exec();
-            console.log(proObj)
             proObj.quantity = cartItems[i].quantity
             proArr.push(proObj);
          }
