@@ -81,18 +81,6 @@ router.post('/login', async function (req, res) {
     })
     req.headers['authorization']
 
-
-
-    if (findFields.length > 0) {
-        let accessToken = jwt.sign({
-            clientID: findFields[0].userId
-        }, process.env.Access_Token_Secret)
-
-        return res.json({
-            success: true,
-            Value: accessToken
-        })
-    }
     if (findFields == undefined || findFields.length === 0) {
         return res.json({
             success: false,
@@ -100,7 +88,22 @@ router.post('/login', async function (req, res) {
         })
     }
 
+    let role = '';
+   if(findFields[0]._doc.username === "Admin")
+   {
+     role = "Admin"
+   }
 
+    if (findFields.length > 0) {
+        let accessToken = jwt.sign({
+            clientID: findFields[0].userId
+        }, process.env.Access_Token_Secret)
+        return res.json({
+            success: true,
+            Value: accessToken ,
+            role: role
+        })
+    }
 
 })
 

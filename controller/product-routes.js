@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const productValidator = require('../validation/product-validator');
 const product = require('../Database/product-schema')
+const user = require('../Database/user-schema')
 const {
     v4: uuidv4
 } = require('uuid');
@@ -39,6 +40,17 @@ router.get('/', async function (req, res) {
 
 // Save all product data in database
 router.post('/', async function (req, res) {
+
+    let token =   req.headers['authorization']
+    let decryptToken =   JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString())
+    let userID = decryptToken.clientID
+    const findUser = await user.findOne({
+        userId: userID
+    })
+    if(!findUser._doc.username === "Admin")
+    {
+      return  res.sendStatus('401')
+    }
 
     const validateObj = productValidator(req.body.title, req.body.description, req.body.price, req.body.inventory)
     if (!validateObj.isValid) {
@@ -82,9 +94,23 @@ router.post('/', async function (req, res) {
 // Delete a product
 router.delete('/:productId', async function (req, res) {
     try {
+
+    let token =   req.headers['authorization']
+    let decryptToken =   JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString())
+    let userID = decryptToken.clientID
+    const findUser = await user.findOne ({
+        userId: userID
+    })
+
+    if(!(findUser._doc.username === 'Admin')) {
+
+      return  res.sendStatus('401')
+    }
+
         const removeProduct = await product.remove({
             productId: req.params.productId
         })
+
         res.json({
             success: true,
             data: removeProduct,
@@ -103,6 +129,17 @@ router.delete('/:productId', async function (req, res) {
 router.put('/:productId', async (req, res) => {
 
     try {
+    let token =   req.headers['authorization']
+    let decryptToken =   JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString())
+    let userID = decryptToken.clientID
+    const findUser = await user.findOne ({
+        userId: userID
+    })
+
+    if(!findUser._doc.username === "Admin")
+    {
+      return  res.sendStatus('401')  
+    }
         const updateProduct =
             await product.updateOne({
                 productId: req.params.productId

@@ -58,7 +58,7 @@ $(document).ready(function () {
                     event.preventDefault();
 
                     let productId = $(this).parent().attr('data-product-id');
-
+                    
                     $.ajax({
                         type: 'DELETE',
                         url: '/products/' + productId,
@@ -101,7 +101,7 @@ function getHeaders() {
     return headersObj;
 }
 
-$('#fresh-btn').on('click', function () {
+$(window).on('load', function () {
     $.ajax({
         type: 'GET',
         url: '/products',
@@ -115,6 +115,7 @@ $('#fresh-btn').on('click', function () {
     
             const products = response.data;
             let productsHTML = '';
+            
             for (let i = 0; i < products.length; i++) {
                 let product = products[i]
                 const divProduct = `
@@ -133,15 +134,20 @@ $('#fresh-btn').on('click', function () {
                             <button type="button" class="btn btn-info cart-btn">Add to cart</button>
                         </div>
                     </div>`;
-
+             
                 productsHTML += divProduct;
             }
-
             if (!productsHTML) {
                 return;
             }
 
             $('#proArray').html(productsHTML);
+            
+            if(!localStorage.getItem('Role')) {
+                $('.del-btn').hide();
+                $('.edt-btn').hide();
+            }
+            
             // Attach handler with products 
             $('.del-btn').on('click', function (event) {
                 event.preventDefault();
@@ -228,6 +234,7 @@ $('#logBtn').on('click', function () {
         },
         success: function (data) {
             if (data.success === true) {
+                localStorage.removeItem('Role')
                 localStorage.removeItem('JWT-Token')
                 window.location.href = '/login-register.html'
             } else {

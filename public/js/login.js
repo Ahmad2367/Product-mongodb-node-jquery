@@ -41,6 +41,9 @@ $('#btnLogin').on('click', function () {
         },
         success: function (data) {
             if (data.success === true) {
+                if(data.role.length>0) {
+                    localStorage.setItem('Role', data.role)
+                }
                 localStorage.setItem('JWT-Token', data.Value)
                 window.location.href = '/'
             }
