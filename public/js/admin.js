@@ -1,10 +1,13 @@
 $(document).ready(function () {
+
     let queryString = window.location.search
     if(queryString) 
     {
-         const params = new URLSearchParams(queryString)
-        const productID = params.get('productId') 
-        
+        const params = new URLSearchParams(queryString)
+        const productID = params.get('productId')
+        if(productID) { 
+        $('#btnAdd').hide()
+        } 
         $.ajax({
             type: 'GET',
             url: '/products?productId=' + productID,
@@ -26,9 +29,12 @@ $(document).ready(function () {
 
             }
         })
+    } else {
+        $('#btnUpdate').hide() 
     }
- 
+
     $('#btnAdd').on('click', function () {
+        
         const productsObj = {
             title: $(".tlVlaue").val(),
             description: $(".prodes").val(),
@@ -69,7 +75,10 @@ $(document).ready(function () {
         return headersObj;
     }
 
+        
+
     $('#btnUpdate').on('click', function () {
+        
 
         const productsObj = {
             productId: $("#proId").val(),

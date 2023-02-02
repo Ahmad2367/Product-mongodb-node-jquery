@@ -54,6 +54,12 @@ $(document).ready(function () {
 
                 $('#proArray').html(productsHTML);
 
+                 
+            if(!localStorage.getItem('Role')) {
+                $('.del-btn').hide();
+                $('.edt-btn').hide();
+            }
+
                 $('.del-btn').on('click', function (event) {
                     event.preventDefault();
 
@@ -193,7 +199,8 @@ $(window).on('load', function () {
                     success: function(data){
                         if(data.success==true)
                         {
-                            console.log(data.value)
+                            console.log(data)
+
                         }
                     }
                 })
