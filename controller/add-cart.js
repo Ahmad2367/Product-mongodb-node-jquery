@@ -30,8 +30,8 @@ router.get('/get', async (req,res)=> {
       try {
          let cartItems =  req.session.cart;
          if(!cartItems) {
-            res.json ({
-               success: true,
+          return  res.json ({
+               success: false,
                data: []
             });
          }
@@ -49,7 +49,6 @@ router.get('/get', async (req,res)=> {
             return {
                   productId: item.productId,
                   title: item.title,
-                  description: item.description,
                   price: item.price,
                   img: item.img,
                   quantity: item.quantity,

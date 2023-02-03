@@ -213,16 +213,7 @@ $(window).on('load', function () {
 })
 
 $('#btnViewCart').on('click', function() {
-    
-    $.ajax({
-        type: 'GET',
-        url: '/cart/get',
-        headers: getHeaders(),
-        success: function(data){
-            console.log(data)
-        }
-
-    })
+    window.location.href = '/cart.html'
 })
 
 

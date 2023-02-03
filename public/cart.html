@@ -10,51 +10,33 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="./js/cart.js" defer></script>
     <link rel="stylesheet" href="./css/cart.css">
-    <title>Document</title>
+    <title>Cart Page</title>
 </head>
 <body>
+  
     <div class="cart_section">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-10 offset-lg-1">
                     <div class="cart_container">
                         <div class="cart_title">Shopping Cart</div>
+                        <p id="msg"></p>
                         <div class="cart_items">
-                            <ul class="cart_list">
-                                <li class="cart_item clearfix">
-                                    <div class="cart_item_image"><img src="https://i.imgur.com/qqBRWD5.jpg" alt=""></div>
-                                    <div class="cart_item_info d-flex flex-md-row flex-column justify-content-between">
-                                        <div class="cart_item_name cart_info_col">
-                                            <div class="cart_item_title">Name</div>
-                                            <div class="cart_item_text">Samsung C7 Pro</div>
-                                        </div>
-                                        <div class="cart_item_quantity cart_info_col">
-                                            <div class="cart_item_title">Quantity</div>
-                                            <div class="cart_item_text">1</div>
-                                        </div>
-                                        <div class="cart_item_price cart_info_col">
-                                            <div class="cart_item_title">Price</div>
-                                            <div class="cart_item_text">₹22000</div>
-                                        </div>
-                                        <div class="cart_item_total cart_info_col">
-                                            <div class="cart_item_title">Total</div>
-                                            <div class="cart_item_text">₹22000</div>
-                                        </div>
-                                    </div>
-                                </li>
+                            <ul id="cartList" class="cart_list">
                             </ul>
                         </div>
-                        <div class="order_total">
-                            <div class="order_total_content text-md-right">
-                                <div class="order_total_title">Order Total:</div>
-                                <div class="order_total_amount">₹22000</div>
-                            </div>
-                        </div>
+                       
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </body>
 </html>
+
+
+
+
