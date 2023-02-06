@@ -10,6 +10,7 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="./js/order.js" defer></script>
     <link rel="stylesheet" href="./css/checkout.css">
     <title>Checkout Page</title>
 </head>
@@ -23,12 +24,12 @@
                     <form>
                         <div class="form-group">
                             <label class="text-muted">Name</label>
-                            <input type="text" value="David Smith" class="form-control">
+                            <input type="text" id="name" class="form-control">
                         </div>
                         <div class="form-group">
                             <label class="text-muted">Email</label>
                             <div class="d-flex jusify-content-start align-items-center rounded p-2">
-                                <input type="email" value="david.343@gmail.com">
+                                <input type="email" id="email">
                                 <span class="fas fa-check text-success pr-sm-2 pr-0"></span>
                             </div>
                         </div>
@@ -37,7 +38,7 @@
                                 <div class="form-group">
                                     <label>City</label>
                                     <div class="d-flex jusify-content-start align-items-center rounded p-2">
-                                        <input type="text" value="Houston">
+                                        <input type="text" id="city">
                                         <span class="fas fa-check text-success pr-2"></span>
                                     </div>
                                 </div>
@@ -46,7 +47,7 @@
                                 <div class="form-group">
                                     <label>Zip code</label>
                                     <div class="d-flex jusify-content-start align-items-center rounded p-2">
-                                        <input type="text" value="77001">
+                                        <input type="text" id="zipCode">
                                         <span class="fas fa-check text-success pr-2"></span>
                                     </div>
                                 </div>
@@ -57,7 +58,7 @@
                                 <div class="form-group">
                                     <label>Address</label>
                                     <div class="d-flex jusify-content-start align-items-center rounded p-2">
-                                        <input type="text" value="542 W.14th Street">
+                                        <input type="text" id="address">
                                         <span class="fas fa-check text-success pr-2"></span>
                                     </div>
                                 </div>
@@ -66,7 +67,7 @@
                                 <div class="form-group">
                                     <label>State</label>
                                     <div class="d-flex jusify-content-start align-items-center rounded p-2">
-                                        <input type="text" value="NY">
+                                        <input type="text" id="state">
                                         <span class="fas fa-check text-success pr-2"></span>
                                     </div>
                                 </div>
@@ -74,8 +75,9 @@
                         </div>
                         <label>Country</label>
                         <select name="country" id="country">
-                            <option value="usa">USA</option>
-                            <option value="ind">INDIA</option>
+                            <option>Pakistan</option>
+                            <option >INDIA</option>
+                            <option>USA</option>
                         </select>
                     </form>
                 </div>  
@@ -101,7 +103,7 @@
                 </div>  
         </div>  
         </div>
-        <button type="button"  class="btn btn-success btn-order">Place order</button>
+        <button type="button" id="btnOrder"  class="btn btn-success btn-order">Place order</button>
     </div>
 </body>
 </html>

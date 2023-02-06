@@ -13,6 +13,7 @@ require('dotenv/config')
 //custom files
 const products = require('./controller/product-routes')
 const cart = require('./controller/add-cart')
+const order = require('./controller/place-order')
 const login = require('./controller/login-route')
 const middleware = require('./auth/auth-middleware')
 
@@ -51,6 +52,7 @@ mongoose.connect(process.env.DB_CONNECTION, {
 app.use('/', login)
 app.use('/products', products)
 app.use('/cart', cart)
+app.use('/order', order)
 
 // app.listen(process.env.PORT || 5000)
 module.exports = app;
