@@ -28,3 +28,11 @@ ul{list-style: none;margin-bottom: 0px}
 #msg{
     text-align: center;
 }
+#check{
+    margin-left: 120px;
+    text-decoration: none;
+    color: white;
+    background: black;
+    padding: 20px 30px;
+}
+

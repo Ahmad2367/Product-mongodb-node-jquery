@@ -2,10 +2,15 @@ const mongoose = require('mongoose')
 
 const orderSchema = mongoose.Schema({
     
-    customerId: String,
     orderId: String,
-    orderDetails: String,
-    paymentMode: Number
+    name: String,
+    email: String,
+    address: String,
+    city: String,
+    state: String,
+    proDetails: String,
+    orderStatus: String,
+    orderDate: String
 })
 
-module.exports =  mongoose.model('OrderInfo', orderSchema)
+module.exports =  mongoose.model('orderz', orderSchema)

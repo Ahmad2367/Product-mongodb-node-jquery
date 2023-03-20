@@ -1,4 +1,5 @@
 {
     "appService.defaultWebAppToDeploy": "/subscriptions/f78f2c75-7325-44fd-9f01-03be6c33ecd3/AppServices/subscriptions/f78f2c75-7325-44fd-9f01-03be6c33ecd3/resourceGroups/App-Service-Files/providers/Microsoft.Web/sites/Ring-Rang",
-    "appService.deploySubpath": "."
+    "appService.deploySubpath": ".",
+    "compile-hero.disable-compile-files-on-did-save-code": true
 }

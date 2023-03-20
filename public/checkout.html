@@ -25,12 +25,14 @@
                         <div class="form-group">
                             <label class="text-muted">Name</label>
                             <input type="text" id="name" class="form-control">
+                            <p id="problem"></p>
                         </div>
                         <div class="form-group">
                             <label class="text-muted">Email</label>
                             <div class="d-flex jusify-content-start align-items-center rounded p-2">
                                 <input type="email" id="email">
                                 <span class="fas fa-check text-success pr-sm-2 pr-0"></span>
+                                <p id="problem"></p>
                             </div>
                         </div>
                         <div class="row">
@@ -40,6 +42,7 @@
                                     <div class="d-flex jusify-content-start align-items-center rounded p-2">
                                         <input type="text" id="city">
                                         <span class="fas fa-check text-success pr-2"></span>
+                                        <p id="problem"></p>
                                     </div>
                                 </div>
                             </div>
@@ -60,6 +63,7 @@
                                     <div class="d-flex jusify-content-start align-items-center rounded p-2">
                                         <input type="text" id="address">
                                         <span class="fas fa-check text-success pr-2"></span>
+                                        <p id="problem"></p>
                                     </div>
                                 </div>
                             </div>
@@ -69,6 +73,7 @@
                                     <div class="d-flex jusify-content-start align-items-center rounded p-2">
                                         <input type="text" id="state">
                                         <span class="fas fa-check text-success pr-2"></span>
+                                        <p id="problem"></p>
                                     </div>
                                 </div>
                             </div>
@@ -98,12 +103,12 @@
             <div class="col-lg-6 col-md-8 col-sm-10 offset-lg-0 offset-md-2 offset-sm-1">
                 <div class="mobile h5">Total Amount</div>
                 <div id="details" class="bg-white rounded pb-5">
-                    <p>Shipping: 0</p>
-                    <p>Total Amount</p>
+                    Total Amount: <span id="totalPrice"></span>
                 </div>  
         </div>  
         </div>
-        <button type="button" id="btnOrder"  class="btn btn-success btn-order">Place order</button>
+        <button type="button" id="btnOrder"  class="btn btn-success btn-odr">Place order</button>
+        
     </div>
 </body>
 </html>

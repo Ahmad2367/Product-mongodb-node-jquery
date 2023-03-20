@@ -17,10 +17,29 @@ $(document).ready(function () {
             headers:getHeaders(),
             data: formData,
             success: function (data) {
-                console.log(data)
+                if(data.success === false) {
+                  document.getElementById('problem').innerHTML = data.error
+                } else {
+                    window.location.href = '/thanks.html'
+                }
+                
             }
         })
     })
+        $.ajax({
+            url:'/cart/get',
+            type:'GET',
+            headers: getHeaders(),
+            success: function (obj) {
+                let arr = obj.data
+                if(arr.length===0) {
+                  document.getElementById("totalPrice").innerText = 0       
+                } else {
+             document.getElementById("totalPrice").innerText =   obj.data.totalPrice
+                }
+            }
+        })
+
 })
 
 function getHeaders() {

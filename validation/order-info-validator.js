@@ -33,6 +33,11 @@ function orderValidator(requestName, requestEmail, requestAddress, requestCity, 
             error: 'Please enter a State. Must not be empty'
         }
     }
+
+    return {
+        isValid: true,
+        error: ""
+    }
 }
 
 

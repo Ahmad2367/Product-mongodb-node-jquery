@@ -73,6 +73,8 @@ function populateCart(cartObj){
         <div id="total" class="order_total_amount"></div>
     </div>
 </div>`
+
+
     
     document.getElementById('total').append(totalAmount);   
 
