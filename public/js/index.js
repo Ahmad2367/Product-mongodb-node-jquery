@@ -35,13 +35,17 @@ $(document).ready(function () {
                     
                         <div class="card-body" data-product-id="${product.productId}">
                         <img src=${product.img} class="card-img-top proImage" alt="...">
-                            <h5 class="card-title protitle">${product.title}</h5>
+                            <h5 class="card-title protitle" id="proTitle">${product.title}</h5>
                             <p class="card-text prodescription">Description: ${product.description}</p>
                             <p class="card-text"><b>PKR</b><span class="proprice">${product.price}</span></p>
+                            Quantity: <input type="text" id="quantity" value='1' placeholder="Quantity">   
+                    <div id="result"></div> 
                             <span class='err-msg'></span>
                             <button type="button"  class="btn btn-danger del-btn">Delete</button>
                             <button type="button" class="btn btn-info edt-btn">Edit</button>
                             <button type="button" class="btn btn-info cart-btn">Add to cart</button>
+                            <div class='progress-bar'></div>
+
                         </div>
                     </div>`;
 
@@ -53,6 +57,15 @@ $(document).ready(function () {
                 }
 
                 $('#proArray').html(productsHTML);
+
+                $('.cart-btn').on('click',function () {
+                    let add = $(this).siblings('div')[0]
+                    add.classList.add('loader') 
+                    setTimeout(()=>{
+                        let remove = $(this).siblings('div')
+                        remove.removeClass('loader')
+                    },2000)
+                })
 
                  
             if(!localStorage.getItem('Role')) {
@@ -92,6 +105,25 @@ $(document).ready(function () {
                     return
                 })
 
+                $('.cart-btn').on('click', function () {
+                    let proID = $(this).parent().attr('data-product-id');
+                   let quantity =  $(`[data-product-id=${proID}]`).find('#quantity').val()
+                   let title =  $(`[data-product-id=${proID}]`).find('#proTitle').text();
+                   
+                   $.ajax({
+                       type: 'POST',
+                       url:'/cart/add?id='+proID + '&quantity= ' + quantity + '&title=' + title,
+                       headers: getHeaders(),
+                       success: function(data){
+                           if(data.success==true)
+                           {
+                               console.log(data)
+   
+                           }
+                       }
+                   })
+               })
+
             }
         })
     })
@@ -129,7 +161,7 @@ $(window).on('load', function () {
                     
                         <div class="card-body" data-product-id="${product.productId}">
                         <img src=${product.img} class="card-img-top proImage" alt="...">
-                            <h5 class="card-title protitle">${product.title}</h5>
+                            <h5 class="card-title protitle" id="proTitle">${product.title}</h5>
                             <p class="card-text prodescription">Description: ${product.description}</p>
                             <p class="card-text"><b>PKR</b><span class="proprice">${product.price}</span></p>
                     Quantity: <input type="text" id="quantity" value='1' placeholder="Quantity">   
@@ -138,9 +170,9 @@ $(window).on('load', function () {
                             <button type="button"  class="btn btn-danger del-btn">Delete</button>
                             <button type="button" class="btn btn-info edt-btn">Edit</button>
                             <button type="button" class="btn btn-info cart-btn">Add to cart</button>
+                            <div class='progress-bar'></div>
                         </div>
                     </div>`;
-             
                 productsHTML += divProduct;
             }
             if (!productsHTML) {
@@ -148,12 +180,22 @@ $(window).on('load', function () {
             }
 
             $('#proArray').html(productsHTML);
-            
+             
+            $('.cart-btn').on('click',function () {
+                let add = $(this).siblings('div')[1]
+                add.classList.add('loader') 
+                setTimeout(()=>{
+                    let remove = $(this).siblings('div')
+                    remove.removeClass('loader')
+                },2000)
+            })
+             
+             
             if(!localStorage.getItem('Role')) {
                 $('.del-btn').hide();
                 $('.edt-btn').hide();
             }
-            
+           
             // Attach handler with products 
             $('.del-btn').on('click', function (event) {
                 event.preventDefault();
@@ -191,10 +233,11 @@ $(window).on('load', function () {
             $('.cart-btn').on('click', function () {
                  let proID = $(this).parent().attr('data-product-id');
                 let quantity =  $(`[data-product-id=${proID}]`).find('#quantity').val()
+                let title =  $(`[data-product-id=${proID}]`).find('#proTitle').text();
                 
                 $.ajax({
                     type: 'POST',
-                    url:'/cart/add?id='+proID + '&quantity= ' + quantity,
+                    url:'/cart/add?id='+proID + '&quantity= ' + quantity + '&title=' + title,
                     headers: getHeaders(),
                     success: function(data){
                         if(data.success==true)

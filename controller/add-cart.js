@@ -8,13 +8,15 @@ router.post('/add', (req,res) => {
    {
       sessionObj.cart.push({ 
          productId: req.query.id,
-         quantity: req.query.quantity
+         quantity: req.query.quantity,
+         title: req.query.title
       });
    }
    else{
       sessionObj.cart =[{ 
          productId: req.query.id,
-         quantity: req.query.quantity
+         quantity: req.query.quantity,
+         title: req.query.title
       }];
    }
       
