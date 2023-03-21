@@ -44,7 +44,7 @@ $(document).ready(function () {
                             <button type="button"  class="btn btn-danger del-btn">Delete</button>
                             <button type="button" class="btn btn-info edt-btn">Edit</button>
                             <button type="button" class="btn btn-info cart-btn">Add to cart</button>
-                            <div class='progress-bar'></div>
+                            <span class='progress-bar'></span>
 
                         </div>
                     </div>`;
@@ -58,14 +58,6 @@ $(document).ready(function () {
 
                 $('#proArray').html(productsHTML);
 
-                $('.cart-btn').on('click',function () {
-                    let add = $(this).siblings('div')[0]
-                    add.classList.add('loader') 
-                    setTimeout(()=>{
-                        let remove = $(this).siblings('div')
-                        remove.removeClass('loader')
-                    },2000)
-                })
 
                  
             if(!localStorage.getItem('Role')) {
@@ -106,6 +98,8 @@ $(document).ready(function () {
                 })
 
                 $('.cart-btn').on('click', function () {
+                    let progressBarElem = $(this).siblings('.progress-bar');
+                    $(progressBarElem).addClass('loader');
                     let proID = $(this).parent().attr('data-product-id');
                    let quantity =  $(`[data-product-id=${proID}]`).find('#quantity').val()
                    let title =  $(`[data-product-id=${proID}]`).find('#proTitle').text();
@@ -115,6 +109,7 @@ $(document).ready(function () {
                        url:'/cart/add?id='+proID + '&quantity= ' + quantity + '&title=' + title,
                        headers: getHeaders(),
                        success: function(data){
+                        $(progressBarElem).removeClass('.loader');
                            if(data.success==true)
                            {
                                console.log(data)
@@ -170,7 +165,7 @@ $(window).on('load', function () {
                             <button type="button"  class="btn btn-danger del-btn">Delete</button>
                             <button type="button" class="btn btn-info edt-btn">Edit</button>
                             <button type="button" class="btn btn-info cart-btn">Add to cart</button>
-                            <div class='progress-bar'></div>
+                            <span class='progress-bar'></span>
                         </div>
                     </div>`;
                 productsHTML += divProduct;
@@ -182,14 +177,10 @@ $(window).on('load', function () {
             $('#proArray').html(productsHTML);
              
             $('.cart-btn').on('click',function () {
-                let add = $(this).siblings('div')[1]
-                add.classList.add('loader') 
-                setTimeout(()=>{
-                    let remove = $(this).siblings('div')
-                    remove.removeClass('loader')
-                },2000)
+                
             })
-             
+            
+
              
             if(!localStorage.getItem('Role')) {
                 $('.del-btn').hide();
@@ -231,6 +222,8 @@ $(window).on('load', function () {
             })
 
             $('.cart-btn').on('click', function () {
+                let progressBarElem = $(this).siblings('.progress-bar');
+                $(progressBarElem).addClass('loader'); 
                  let proID = $(this).parent().attr('data-product-id');
                 let quantity =  $(`[data-product-id=${proID}]`).find('#quantity').val()
                 let title =  $(`[data-product-id=${proID}]`).find('#proTitle').text();
@@ -240,6 +233,7 @@ $(window).on('load', function () {
                     url:'/cart/add?id='+proID + '&quantity= ' + quantity + '&title=' + title,
                     headers: getHeaders(),
                     success: function(data){
+                        $(progressBarElem).removeClass('loader');
                         if(data.success==true)
                         {
                             console.log(data)
