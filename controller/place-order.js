@@ -57,30 +57,24 @@ router.post('/', async function(req,res) {
         data: "Added successfully"
     })
 
-        let txt = `We have received your order. Your order id is ${orderInfo.orderId}`
+        let txt = `We have received your order. Your order id is ${orderInfo.orderId}.
+        <br>
+        <h3>Ordered Items</h3>`
         let jsonStr = JSON.parse(proDetails)    
         let html = ''
         for(let i=0; i<jsonStr.length; i++) {
             const struct =   
             `
-            <h3>Ordered Items</h3>
-            <br>
             <p>Product: ${jsonStr[i].title}</p>
-            <br>
             <p>Quantity: ${jsonStr[i].quantity}</p>
-            <br>
-            <p>Customer Email: ${orderInfo.email}</p>
-            <br>
-            <p>Customer City: ${orderInfo.city}</p>
-            <br>
-            <p>Customer State: ${orderInfo.state}</p>
-            <br>
             `
             html += struct
         }
         let shipment = `<h3>Shipment address:</h3>
-        <br>
-        <p>Delivery Address: ${orderInfo.address}</p>`
+        <p>Delivery Address: ${orderInfo.address}</p>
+        <p>Customer Email: ${orderInfo.email}</p>
+        <p>Customer City: ${orderInfo.city}</p>
+        <p>Customer State: ${orderInfo.state}</p>`
     
     transport.sendMail(sendMail(orderInfo.email,txt,shipment,html),  function(err, info){
             if(err) {
@@ -90,9 +84,6 @@ router.post('/', async function(req,res) {
             }
         });   
 })
-
-
-
 
 
 function sendMail (recevier,text,ship,body) {
